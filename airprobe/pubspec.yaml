@@ -1,4 +1,4 @@
-name: flutter_blue_example
+name: airprobe
 description: Demonstrates how to use the flutter_blue plugin.
 publish_to: 'none'
 
@@ -8,6 +8,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  native_device_orientation: ^0.1.2
+  charts_flutter: ^0.6.0
+  # flutter_blue: ^0.5.0
 
 dev_dependencies:
   flutter_test:
@@ -18,3 +21,8 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  fonts:
+      - family: Digital
+        fonts:
+          - asset: fonts/digital-7/digital-7 (mono).ttf
+            weight: 500
