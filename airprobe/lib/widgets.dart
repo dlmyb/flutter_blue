@@ -4,7 +4,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
-// import 'package:native_device_orientation/native_device_orientation.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'dart:typed_data';
 
@@ -89,6 +88,8 @@ class _MeasureTileState extends State<MeasureTile>{
   List<DataRow> memo;
   int count;
   double startTime;
+  double _time;
+  double _measure;
 
   @override
   void initState() {
@@ -115,6 +116,22 @@ class _MeasureTileState extends State<MeasureTile>{
     )];
   }
 
+  _onSelectionChanged(charts.SelectionModel model) {
+    final selectedDatum = model.selectedDatum;  
+    
+    double time, measure;
+    if (selectedDatum.isNotEmpty) {
+      time = selectedDatum.first.datum.t;
+      measure = selectedDatum.first.datum.v;
+    }
+
+    // Request a build.
+    setState(() {
+      _time = time;
+      _measure = measure;
+    });
+  }
+
   @override
   Widget build(BuildContext context){
     var display = "______";
@@ -133,19 +150,44 @@ class _MeasureTileState extends State<MeasureTile>{
       }
     }
     if (MediaQuery.of(context).orientation == Orientation.landscape && memo.isNotEmpty){
-      return new SizedBox(
+      final children = <Widget>[SizedBox(
           child: new charts.ScatterPlotChart(
             createData(),
             animate: false,
             // defaultRenderer: new charts.LineRendererConfig(includePoints: true),
             domainAxis: new charts.NumericAxisSpec(
-              viewport: new charts.NumericExtents(0, 100)
+              viewport: new charts.NumericExtents(0, 60)
             ),
             primaryMeasureAxis: new charts.NumericAxisSpec(
-                tickProviderSpec: new charts.BasicNumericTickProviderSpec(zeroBound: false))
+                tickProviderSpec: new charts.BasicNumericTickProviderSpec(zeroBound: false)),
+            selectionModels: [
+              new charts.SelectionModelConfig(
+                type: charts.SelectionModelType.info,
+                changedListener: _onSelectionChanged,
+              )
+            ],
+            behaviors: [
+              new charts.LinePointHighlighter(
+                showHorizontalFollowLine:
+                  charts.LinePointHighlighterFollowLineType.nearest,
+                showVerticalFollowLine:
+                  charts.LinePointHighlighterFollowLineType.nearest),
+              new charts.SelectNearest(
+                eventTrigger: charts.SelectionTrigger.tapAndDrag),
+            ],
           ),
-          height: 250.0
-      );
+          height: 200.0
+      )];
+      if (_time != null){
+        children.add(new Padding(
+          padding: new EdgeInsets.only(top: 5.0),
+          child: new Text("Time: ${_time.toStringAsFixed(3)} s")
+        ));
+        children.add(
+          new Text("Measure: ${_measure.toStringAsFixed(3)}")
+        );
+      }
+      return new Column(children: children);
     }
     return MeasureDisplay(value: display);
   }

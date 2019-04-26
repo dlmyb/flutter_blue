@@ -71,14 +71,15 @@ class _FlutterBlueAppState extends State<FlutterBlueApp> {
   }
 
   _startScan() {
+    scanResults?.clear();
     _scanSubscription = _flutterBlue
         .scan(timeout: const Duration(seconds: 3),)
         .listen((scanResult) {
-          if (scanResult.device.id.toString() == "377C92A5-527E-FDC4-703F-1DAF2535AEA5"){
+          // if (scanResult.device.id.toString() == "377C92A5-527E-FDC4-703F-1DAF2535AEA5"){
           setState(() {
             scanResults[scanResult.device.id] = scanResult;
         });
-      }
+      // }
     }, onDone: _stopScan);
 
     setState(() {
@@ -138,7 +139,7 @@ class _FlutterBlueAppState extends State<FlutterBlueApp> {
     sub?.cancel();
     sub = null;
     if (target.isNotifying) {
-      device.setNotifyValue(target, false);
+      device?.setNotifyValue(target, false);
     }
     deviceStateSubscription?.cancel();
     deviceStateSubscription = null;
@@ -244,6 +245,7 @@ class _FlutterBlueAppState extends State<FlutterBlueApp> {
       tiles.addAll(_buildScanResultTiles());
     }
     return new MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: new Scaffold(
         appBar: new AppBar(
           // title: const Text('AirProbe'),
