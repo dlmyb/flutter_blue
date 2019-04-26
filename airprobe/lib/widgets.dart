@@ -250,7 +250,7 @@ class MeasureDisplay extends StatelessWidget {
       Text(value, 
           style: TextStyle(
           fontSize: 80,
-          fontFamily: "digital"
+          // fontFamily: "digital"
         )
       ),
       Text(flag, style: TextStyle(fontSize: 60)),
