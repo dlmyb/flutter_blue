@@ -75,11 +75,11 @@ class _FlutterBlueAppState extends State<FlutterBlueApp> {
     _scanSubscription = _flutterBlue
         .scan(timeout: const Duration(seconds: 3),)
         .listen((scanResult) {
-          // if (scanResult.device.id.toString() == "377C92A5-527E-FDC4-703F-1DAF2535AEA5"){
+          if (scanResult.device.id.toString() == "2B12E6BE-C805-66AB-AB40-D51690D55029"){
           setState(() {
             scanResults[scanResult.device.id] = scanResult;
         });
-      // }
+       }
     }, onDone: _stopScan);
 
     setState(() {
