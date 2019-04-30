@@ -1,5 +1,5 @@
-name: airprobe
-description: Demonstrates how to use the flutter_blue plugin.
+name: Airprobe
+description: 'ECE497 project in UIC'
 publish_to: 'none'
 
 environment:
@@ -20,8 +20,8 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-  fonts:
-      - family: Digital
-        fonts:
-          - asset: fonts/digital-7/digital-7 (mono).ttf
-            weight: 500
+  # fonts:
+  #     - family: Digital
+  #       fonts:
+  #         - asset: fonts/digital-7/digital-7 (mono).ttf
+  #           weight: 500
